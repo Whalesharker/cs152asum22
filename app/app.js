@@ -30,23 +30,23 @@ app.get('/simpleform',
     res.render('simpleform')
   })
 
-  app.post("/simpleform", (req, res, next) => {
-    // res.json(req.body);
-    const { username, age, height } = req.body;
-    res.locals.username = username;
-    res.locals.age = age;
-    res.locals.ageInDays = age * 365;
-    res.locals.height = height;
-    res.locals.heightCm = height * 2.54;
-    res.locals.version = "1.0.0";
-    res.render("simpleformresult");
-  });
+app.post("/simpleform", (req, res, next) => {
+  // res.json(req.body);
+  const { username, age, height } = req.body;
+  res.locals.username = username;
+  res.locals.age = age;
+  res.locals.ageInDays = age * 365;
+  res.locals.height = height;
+  res.locals.heightCm = height * 2.54;
+  res.locals.version = "1.0.0";
+  res.render("simpleformresult");
+});
 
-  app.get('/bmi',
-    (req, res, next) => {
-      res.render('bmi')
-    }
-  )
+app.get('/bmi',
+  (req, res, next) => {
+    res.render('bmi')
+  }
+)
 
 app.post('/bmi',
   (req,res,next) => {
@@ -59,7 +59,21 @@ app.post('/bmi',
     res.render('bmiresults');
   }
 )
-
+app.get('/dist',
+  (req, res, next) => {
+    res.render('dist')
+  }
+)
+app.post('/dist',
+  (req,res,next) => {
+    const {x, y, z} = req.body;
+    res.locals.x = x;
+    res.locals.y = y;
+    res.locals.z = z;
+    res.locals.distance = Math.sqrt(x*x+y*y+z*z);
+    res.render('distresults');
+  }
+)
 
 app.get('/showFamily',
   (req,res,next) => {
