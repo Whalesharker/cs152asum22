@@ -60,11 +60,6 @@ app.post('/bmi',
   }
 )
 
-const family = [
-  {name:'Tim',age:66,},
-  {name:'Caitlin',age:27,},
-  {name:'Ryan',age:23,},
-];
 
 app.get('/showFamily',
   (req,res,next) => {
