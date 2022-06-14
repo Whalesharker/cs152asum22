@@ -87,6 +87,13 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
+const family = [
+  {name: 'Coco', age:25,},
+  {name: 'Phoebe', age:28,},
+  {name: 'potato', age:22,},
+];
+//I didn't want to put any more personal identification here.
+
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
