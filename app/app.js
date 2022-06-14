@@ -90,7 +90,9 @@ app.use(function(req, res, next) {
 const family = [
   {name: 'Coco', age:25,},
   {name: 'Phoebe', age:28,},
-  {name: 'potato', age:22,},
+  {name: 'Ian', age:22,},
+  {name: 'Lars',age:"??",},
+  {name: 'Judy',age:"??",},
 ];
 //I didn't want to put any more personal identification here.
 
