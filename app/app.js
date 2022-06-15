@@ -7,12 +7,23 @@ const layouts = require("express-ejs-layouts");
 const axios = require('axios')
 
 // *********************************************************** //
+//  Loading JSON datasets
+// *********************************************************** //
+const courses = require('./public/data/courses20-21.json')
+
+// *********************************************************** //
+//  Loading models
+// *********************************************************** //
+
+const Course = require('./models/Course')
+
+// *********************************************************** //
 //  Connecting to the database
 // *********************************************************** //
 
 const mongoose = require( 'mongoose' );
-//const mongodb_URI = 'mongodb://localhost:27017/cs103a_todo'
-const mongodb_URI = 'mongodb+srv://cs_sj:BrandeisSpr22@cluster0.kgugl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+const mongodb_URI = 'mongodb://localhost:27017/cs103a_todo'
+//const mongodb_URI = 'mongodb+srv://cs_sj:BrandeisSpr22@cluster0.kgugl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
 mongoose.connect( mongodb_URI, { useNewUrlParser: true, useUnifiedTopology: true } );
 // fix deprecation warnings
@@ -119,6 +130,16 @@ app.get('/githubInfo/:githubID',
     res.render('showRepos')
     //res.json(response.data.slice(100,105));
   })
+
+app.get('/uploadDB',
+  async (req,res,next) => {
+    await Course.deleteMany({});
+    await Course.insertMany(courses);
+
+    const num = await Course.find({}).count();
+    res.send("data uploaded: "+num)
+  }
+)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
