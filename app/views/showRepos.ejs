@@ -3,11 +3,15 @@
 <table class="table table-bordered table-striped">
     <thead>
         <th>name</th>
+        <th>html_url</th>
     </thead>
     <tbody>
         <% for(repo of repos){%> 
         <tr> 
-            <td><%= repo.name %> </td> 
+            <td><%= repo.name %></td>
+            <td><a href= <%= repo.html_url%>> <%= repo.full_name%> </a></td> 
+            <!-- &lt; is how you get a less than to appear as text.-->
+
         </tr>
         <% } %>
     </tbody>
