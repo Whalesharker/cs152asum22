@@ -11,6 +11,7 @@
             <td><%= repo.name %></td>
             <td><a href= <%= repo.html_url%>> <%= repo.full_name%> </a></td> 
             <!-- &lt; is how you get a less than to appear as text.-->
+            <!-- Also don't put a less than percent in a comment in an ejs file because the compiler will get confused even if it's in a comment.-->
 
         </tr>
         <% } %>

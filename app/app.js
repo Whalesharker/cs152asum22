@@ -91,9 +91,10 @@ app.get('/apidemo/:email',
     //res.json(response.data.slice(100,105));
   })
 
-app.get('/githubInfo',
+app.get('/githubInfo/:githubId',
   async (req,res,next) => {
-    const response = await axios.get('https://api.github.com/users/tjhickey724/repos')
+    const id = req.params.githubId;
+    const response = await axios.get('https://api.github.com/users/'+id+'/repos')
     console.dir(response.data.length)
     res.locals.repos = response.data
     res.render('showRepos')
