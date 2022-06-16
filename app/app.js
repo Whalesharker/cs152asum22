@@ -35,7 +35,13 @@ db.on('error', console.error.bind(console, 'connection error: Oh no, everybody p
 db.once('open', function() {console.log("we are connected!!!")});
 
 
-
+// middleware to test is the user is logged in, and if not, send them to the login page
+const isLoggedIn = (req,res,next) => {
+  if (res.locals.loggedIn) {
+    next()
+  }
+  else res.redirect('/login')
+}
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -153,7 +159,6 @@ const family = [
   {name: 'Lars',age:"??",},
   {name: 'Judy',age:"??",},
 ];
-//I didn't want to put any more personal identification here.
 
 // error handler
 app.use(function(err, req, res, next) {
