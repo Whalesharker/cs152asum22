@@ -31,7 +31,7 @@ mongoose.connect( mongodb_URI, { useNewUrlParser: true, useUnifiedTopology: true
 //mongoose.set('useCreateIndex', true);
 
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', console.error.bind(console, 'connection error: Oh no, everybody panic! AAAAAAH'));
 db.once('open', function() {console.log("we are connected!!!")});
 
 
