@@ -107,6 +107,18 @@ app.post("/simpleform",
   res.locals.version = "1.0.0";
   res.render("simpleformresult");
 });
+app.get('/exam3b',
+  (req, res, next) => {
+    res.render('exam3b')
+  }
+)
+app.post('/exam3b',
+  (req, res, next) => {
+    const {url} = req.body;
+    res.locals.url = url
+    res.render("exam3bShowImage")
+  }
+)
 
 app.get('/bmi',
   (req, res, next) => {
@@ -166,6 +178,22 @@ app.get('/githubInfo/:githubID',
     res.render('showRepos')
     //res.json(response.data.slice(100,105));
   })
+
+app.get('/meals',
+async (req,res,next) => {
+  res.render('meals')
+})
+
+app.post('/meals',
+async (req,res,next) => {
+  const {ingredient} = req.body;
+  const response = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?i='+ingredient)
+  console.dir(response.data.length)
+  console.log(response)
+  res.locals.recipes = response
+  res.locals.ingredient = ingredient
+  res.render('showMeals')
+})
 
 app.get('/uploadDB',
   async (req,res,next) => {
