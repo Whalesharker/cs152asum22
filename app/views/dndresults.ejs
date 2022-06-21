@@ -1,0 +1,16 @@
+<h1>Spells containing "<%= search %>".</h1>
+<table class="table table-bordered table-striped">
+    <thead>
+        <th>name</th>
+        <th>url</th>
+    </thead>
+    <tbody>
+        <% for(r of results){%> 
+            <tr> 
+                <td> <%= r.name %> </td> 
+                <td> <a href = "https://www.dnd5eapi.co<%= r.url %>">https://www.dnd5eapi.co<%= r.url %></a> </td>
+            </tr>
+        <% } %>
+    </tbody>
+</table>
+</form>

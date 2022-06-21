@@ -2,6 +2,6 @@
 <% for(r of recipes){%> 
     <%= r.strMeal %>
     <br>
-    <%= r.strMealThumb %>
+    <img src = "<%= r.strMealThumb %>" alt = "Photo of meal described above, which is <%= r.strMeal %>">
     <hr>
 <% } %>

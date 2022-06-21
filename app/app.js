@@ -190,7 +190,7 @@ async (req,res,next) => {
   const response = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?i='+ingredient)
   console.dir(response.data.length)
   console.log(response)
-  res.locals.recipes = response
+  res.locals.recipes = response.data.meals
   res.locals.ingredient = ingredient
   res.render('showMeals')
 })
@@ -204,7 +204,37 @@ app.get('/uploadDB',
     res.send("data uploaded: "+num)
   }
 )
-
+app.get("/dnd",
+  (req, res, next) => {
+    res.render('dnd')
+  }
+)
+app.post('/dnd',
+async (req,res,next) => {
+  const search = req.body.search;
+  const response = await axios.get("https://www.dnd5eapi.co/api/spells/")
+  //I apperently need to take the entire API and then manually search it myself. 
+  //Guess I need to figure out how to do that.
+  console.dir(response.data.length)
+  console.log(response)
+  var allSpells = response.data.results
+  res.locals.search = search
+  //Code below gotten and edited from https://stackoverflow.com/questions/10679580/javascript-search-inside-a-json-object
+  //results is a list of spells from the API that match the search.
+  var results = [];
+  var searchVal = search;
+  for (var i=0 ; i < allSpells.length ; i++)
+  {
+    //Iterates through all spells in the API and adds those that have a name that includes the search in the results list.
+    if (allSpells[i].name.toLowerCase().includes(searchVal.toLowerCase())) {
+        results.push(allSpells[i]);
+    }
+  }
+  //Passes results to dndresults
+  res.locals.results = results
+  //end of code taken from stack overflow.
+  res.render('dndresults')
+})
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
