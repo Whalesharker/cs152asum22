@@ -8,6 +8,8 @@ const axios = require('axios');
 const auth = require('./routes/auth');
 const session = require("express-session"); 
 const MongoDBStore = require('connect-mongodb-session')(session);
+const ToDoItem = require('./models/ToDoItem');
+
 
 // *********************************************************** //
 //  Loading JSON datasets
@@ -235,8 +237,6 @@ async (req,res,next) => {
   //end of code taken from stack overflow.
   res.render('dndresults')
 })
-const ToDoItem = require('./models/ToDoItem');
-
 app.get('/todo', (req,res,next) => res.render('todo'))
 
 app.post('/todo',
@@ -267,8 +267,8 @@ app.get('/showTodoList',
    try {
     const todoitems = await ToDoItem.find({userId:res.locals.user._id});
     res.locals.todoitems = todoitems
-    //res.render('showtodoitems')
-    res.json(todoitems);
+    res.render('showtodoitems')
+    //res.json(todoitems);
    }catch(e){
     next(e);
    }

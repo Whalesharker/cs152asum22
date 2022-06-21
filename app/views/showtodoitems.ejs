@@ -1,0 +1,12 @@
+Todo List:
+<!--<pre>
+    <%= JSON.stringify(todoitems,null,5) %>
+</pre>-->
+<ul>
+    <% for(item of todoitems){%> 
+        <li><%= item.descr %></li>
+    <% } %>
+</ul>
+<% if (todoitems.length==0) {%>
+<h3>No items found</h3>
+<% } %>
