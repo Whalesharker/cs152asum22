@@ -1,7 +1,20 @@
 <h1>Show Meals containing <%= ingredient %></h1>
-<% for(r of recipes){%> 
-    <%= r.strMeal %>
+
+<pre>
+    <%= JSON.stringify(meals,null,5) %>
+</pre>
+<% for(meal of meals){%> 
+    <h2><%= meal.strMeal %></h2>
     <br>
-    <img src = "<%= r.strMealThumb %>" alt = "Photo of meal described above, which is <%= r.strMeal %>">
+    <img width="100" src="<%= meal.strMealThumb  %>" alt="Photo of meal described above, which is <%= r.strMeal %>" >
     <hr>
 <% } %>
+
+<% if (meals.length==0) {%>
+<h3>No meals found</h3>
+<% } %>
+
+
+
+
+
