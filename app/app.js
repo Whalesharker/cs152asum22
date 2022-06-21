@@ -190,7 +190,8 @@ async (req,res,next) => {
   const response = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?i='+ingredient)
   console.dir(response.data.length)
   console.log(response)
-  res.locals.recipes = response.data.meals
+  res.locals.recipes = response.data.meals || []
+  //Null is a false value, so that or statement will make recipes null if response.data.meals doesn't have anything. 
   res.locals.ingredient = ingredient
   res.render('showMeals')
 })
