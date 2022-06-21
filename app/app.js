@@ -210,12 +210,11 @@ app.get("/dnd",
     res.render('dnd')
   }
 )
+
 app.post('/dnd',
 async (req,res,next) => {
   const search = req.body.search;
   const response = await axios.get("https://www.dnd5eapi.co/api/spells/")
-  //I apperently need to take the entire API and then manually search it myself. 
-  //Guess I need to figure out how to do that.
   console.dir(response.data.length)
   console.log(response)
   var allSpells = response.data.results
