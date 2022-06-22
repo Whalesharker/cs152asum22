@@ -268,7 +268,7 @@ app.get('/showTodoList',
     const todoitems = await ToDoItem.find({userId:res.locals.user._id});
 
     res.locals.todoitems = todoitems
-    res.render('showtodoitems')
+    res.render('showToDoList')
     //res.json(todoitems);
    }catch(e){
     next(e);
