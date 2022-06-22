@@ -241,8 +241,8 @@ app.post('/coursesBySubject',
       const data = await Course.find({subject:subject,term:term,
         enrolled: {$gt: 0} })
         //{$gt: 0} means find items where the specified field is greater than 0.
-               .select("subject coursenum name enrolled term");
-               //.sort({enrolled : 1})
+               .select("subject coursenum name enrolled term")
+               .sort({enrolled:-1})
       res.json(data);
     }catch(e){
       next(e)
