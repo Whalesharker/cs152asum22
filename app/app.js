@@ -20,7 +20,7 @@ const courses = require('./public/data/courses20-21.json')
 //  Loading models
 // *********************************************************** //
 
-const Course = require('./models/Course')
+
 
 // *********************************************************** //
 //  Connecting to the database
@@ -46,6 +46,15 @@ const isLoggedIn = (req,res,next) => {
   }
   else res.redirect('/login')
 }
+/*
+  Load MongoDB models 
+*/
+const ToDoItem = require('./models/ToDoItem');
+const Schedule = require('./models/Schedule');
+const Course = require('./models/Course')
+
+
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -213,6 +222,33 @@ app.get("/dnd",
   }
 )
 
+
+app.post('/dnd',
+async (req,res,next) => {
+  const search = req.body.search;
+  const response = await axios.get("https://www.dnd5eapi.co/api/spells/")
+  console.dir(response.data.length)
+  console.log(response)
+  var allSpells = response.data.results
+  res.locals.search = search
+  //Code below gotten and edited from https://stackoverflow.com/questions/10679580/javascript-search-inside-a-json-object
+  //results is a list of spells from the API that match the search.
+  var results = [];
+  var searchVal = search;
+  for (var i=0 ; i < allSpells.length ; i++)
+  {
+    //Iterates through all spells in the API and adds those that have a name that includes the search in the results list.
+    if (allSpells[i].name.toLowerCase().includes(searchVal.toLowerCase())) {
+        results.push(allSpells[i]);
+    }
+  }
+  //Passes results to dndresults
+  res.locals.results = results
+  //end of code taken from stack overflow.
+  res.render('dndresults')
+})
+
+
 app.get('/bigCourses',
   async (req,res,next) => {
     try{
@@ -226,6 +262,27 @@ app.get('/bigCourses',
       next(e)
     }
   })
+
+
+
+app.get('/addCourse/:courseId',
+   isLoggedIn,
+   async (req,res,next) => {
+    try {
+      const schedItem = 
+         new Schedule(
+          {
+            userid:res.locals.user._id,
+            courseId:req.params.courseId}
+          )
+      await schedItem.save();
+      res.redirect('/coursesBySubject')
+    }catch(e) {
+      next(e)
+    }
+   }
+
+)
 
 app.get('/coursesBySubject',
   (req,res,next) => {
@@ -259,32 +316,6 @@ app.post('/coursesBySubject',
     }
   }
 )	
-
-
-app.post('/dnd',
-async (req,res,next) => {
-  const search = req.body.search;
-  const response = await axios.get("https://www.dnd5eapi.co/api/spells/")
-  console.dir(response.data.length)
-  console.log(response)
-  var allSpells = response.data.results
-  res.locals.search = search
-  //Code below gotten and edited from https://stackoverflow.com/questions/10679580/javascript-search-inside-a-json-object
-  //results is a list of spells from the API that match the search.
-  var results = [];
-  var searchVal = search;
-  for (var i=0 ; i < allSpells.length ; i++)
-  {
-    //Iterates through all spells in the API and adds those that have a name that includes the search in the results list.
-    if (allSpells[i].name.toLowerCase().includes(searchVal.toLowerCase())) {
-        results.push(allSpells[i]);
-    }
-  }
-  //Passes results to dndresults
-  res.locals.results = results
-  //end of code taken from stack overflow.
-  res.render('dndresults')
-})
 app.get('/todo', (req,res,next) => res.render('todo'))
 
 app.post('/todo',
