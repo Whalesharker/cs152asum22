@@ -243,7 +243,9 @@ app.post('/coursesBySubject',
         //{$gt: 0} means find items where the specified field is greater than 0.
                .select("subject coursenum name enrolled term")
                .sort({enrolled:-1})
-      res.json(data);
+      res.locals.courses = data;
+      res.render('showCoursesBySubject');
+
     }catch(e){
       next(e)
     }
@@ -353,6 +355,11 @@ const family = [
   {name: 'Ian', age:22,},
   {name: 'Lars',age:"??",},
   {name: 'Judy',age:"??",},
+  {name: 'Amah',age:"~80"},
+  {name: 'Copper',age:"Baby"},
+  {name: 'Archie',age:"Baby"},
+  {name: 'Void',age:"Baby"},
+  {name: 'Pepper',age:"Old Baby"},
 ];
 
 // error handler
