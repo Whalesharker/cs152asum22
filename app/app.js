@@ -213,6 +213,37 @@ app.get("/dnd",
   }
 )
 
+app.get('/bigCourses',
+  async (req,res,next) => {
+    try{
+      const bigCourses =  await Course.find({enrolled:{$gt:150}})
+                          //.select("subject coursenum name enrolled term")
+                          //.sort({term:1,enrolled:-1})
+                          //.limit(3)
+                          ;
+      res.json(bigCourses);
+    }catch(e){
+      next(e)
+    }
+  })
+
+app.get('/courses/:subject/:term',
+  async (req,res,next) => {
+    try{
+      const subject = req.params.subject;
+      const term = req.params.term;
+      const data = await Course.find({subject,term})
+               .select("subject coursenum name enrolled term");
+      res.json(data);       
+
+    }catch(e){
+      next(e)
+    }
+  }
+)
+
+const ToDoItem = require('./models/ToDoItem');
+
 app.post('/dnd',
 async (req,res,next) => {
   const search = req.body.search;
@@ -300,7 +331,7 @@ app.get('/toggleToDoItem/:itemId',
         res.redirect('/showTodoList');
       } catch(e){
         next(e);
-      }
+      } 
     }
 )
 
