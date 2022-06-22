@@ -228,7 +228,9 @@ app.get('/bigCourses',
   })
 
 app.get('/coursesBySubject',
-  (req,res,next) =>{
+  (req,res,next) => {
+    res.locals.courses =[]
+    console.log('rendering coursesBySubject')
     res.render('coursesBySubject')
   }
 )
@@ -238,13 +240,19 @@ app.post('/coursesBySubject',
     try{
       const subject = req.body.subject;
       const term = req.body.term;
-      const data = await Course.find({subject:subject,term:term,
-        enrolled: {$gt: 0} })
+      const data = await Course.find({
+        subject:subject,
+        term:term, 
+        enrolled:{$gt:10}
         //{$gt: 0} means find items where the specified field is greater than 0.
-               .select("subject coursenum name enrolled term")
-               .sort({enrolled: -1})
+
+      })
+              //.select("subject coursenum name enrolled term")
+              //.select would be if I only want to pull certain parameters.
+               .sort({enrolled:-1})
+      //res.json(data); 
       res.locals.courses = data;
-      res.render('showCoursesBySubject');
+      res.render('coursesBySubject');
 
     }catch(e){
       next(e)
