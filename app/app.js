@@ -227,22 +227,29 @@ app.get('/bigCourses',
     }
   })
 
-app.get('/courses/:subject/:term',
+app.get('/coursesBySubject',
+  (req,res,next) =>{
+    res.render('coursesBySubject')
+  }
+)
+
+app.post('/coursesBySubject',
   async (req,res,next) => {
     try{
-      const subject = req.params.subject;
-      const term = req.params.term;
-      const data = await Course.find({subject,term})
+      const subject = req.body.subject;
+      const term = req.body.term;
+      const data = await Course.find({subject:subject,term:term,
+        enrolled: {$gt: 0} })
+        //{$gt: 0} means find items where the specified field is greater than 0.
                .select("subject coursenum name enrolled term");
-      res.json(data);       
-
+               //.sort({enrolled : 1})
+      res.json(data);
     }catch(e){
       next(e)
     }
   }
-)
+)	
 
-const ToDoItem = require('./models/ToDoItem');
 
 app.post('/dnd',
 async (req,res,next) => {
