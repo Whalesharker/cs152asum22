@@ -242,7 +242,7 @@ app.post('/coursesBySubject',
         enrolled: {$gt: 0} })
         //{$gt: 0} means find items where the specified field is greater than 0.
                .select("subject coursenum name enrolled term")
-               .sort({enrolled:-1})
+               .sort({enrolled: -1})
       res.locals.courses = data;
       res.render('showCoursesBySubject');
 
