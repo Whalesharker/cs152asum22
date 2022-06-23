@@ -337,6 +337,10 @@ app.post('/coursesBySubject',
               //.select would be if I only want to pull certain parameters.
                .sort({enrolled:-1})
       //res.json(data); 
+      const scheduledCourses = 
+         await Schedule.find({userId:res.locals.user.id});
+      res.locals.schedIds = 
+         scheduledCourses.map(x => x.courseId);
       res.locals.courses = data;
       res.render('coursesBySubject');
 
