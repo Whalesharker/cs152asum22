@@ -300,6 +300,19 @@ app.get('/showSchedule',
   }
 )
 
+app.get('/deleteFromSchedule/:itemId',
+    isLoggedIn,
+    async (req,res,next) => {
+      try {
+        const itemId = req.params.itemId;
+        await Schedule.deleteOne({_id:itemId});
+        res.redirect('/showSchedule');
+      } catch(e){
+        next(e);
+      }
+    }
+)
+
 app.get('/coursesBySubject',
   (req,res,next) => {
     res.locals.courses =[]
