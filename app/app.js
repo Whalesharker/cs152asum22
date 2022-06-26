@@ -49,7 +49,6 @@ const isLoggedIn = (req,res,next) => {
 /*
   Load MongoDB models 
 */
-const ToDoItem = require('./models/ToDoItem');
 const Schedule = require('./models/Schedule');
 const Course = require('./models/Course')
 
@@ -201,7 +200,28 @@ async (req,res,next) => {
   const response = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?i='+ingredient)
   console.dir(response.data.length)
   console.log(response)
-  res.locals.recipes = response.data.meals || []
+  res.locals.meals = response.data.meals || []
+  //Null is a false value, so that or statement will make recipes null if response.data.meals doesn't have anything. 
+  res.locals.ingredient = ingredient
+  res.render('showMeals')
+})
+
+app.get('/showIngredients',
+  async (req,res,next) => {
+    const response = await axios.get('https://www.themealdb.com/api/json/v1/1/list.php?i=list')
+    console.dir(response.data.length)
+    console.dir(response.data.meals)
+    res.locals.repos = response.data.meals
+    res.render('showIngredients')
+  }
+)
+app.post('/showIngredients',
+async (req,res,next) => {
+  const {ingredient} = req.body;
+  const response = await axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?i='+ingredient)
+  console.dir(response.data.length)
+  console.log(response)
+  res.locals.meals = response.data.meals || []
   //Null is a false value, so that or statement will make recipes null if response.data.meals doesn't have anything. 
   res.locals.ingredient = ingredient
   res.render('showMeals')
@@ -415,6 +435,8 @@ app.get('/toggleToDoItem/:itemId',
       } 
     }
 )
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
