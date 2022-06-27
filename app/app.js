@@ -334,9 +334,18 @@ app.get('/deleteFromSchedule/:itemId',
 )
 
 app.get('/coursesBySubject',
-  (req,res,next) => {
+  isLoggedIn,
+  async (req,res,next) => {
     res.locals.courses =[]
     console.log('rendering coursesBySubject')
+    const scheduledCourses = 
+    await Schedule.find({userId:res.locals.user.id});
+    res.locals.schedIds = 
+      scheduledCourses.map(x => {
+        let y = x.courseId.valueOf();
+        console.log(y); console.log(typeof y);
+        return y+"";
+      });
     res.render('coursesBySubject')
   }
 )
