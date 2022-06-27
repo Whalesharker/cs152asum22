@@ -23,4 +23,4 @@ var courseSchema = Schema( {
     //https://www.dnd5eapi.co/api/spells/acid-arrow For reference to the fields.
 } );
 
-module.exports = mongoose.model( 'Course', courseSchema );
+module.exports = mongoose.model( 'Spell', SpellSchema );
