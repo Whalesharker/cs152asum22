@@ -51,12 +51,13 @@ const isLoggedIn = (req,res,next) => {
 */
 const Schedule = require('./models/Schedule');
 const Course = require('./models/Course')
-
+const Spell_List = require('./models/Spell_List');
+const Spell = require('./models/Spell');
 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const Spell_List = require('./models/Spell_List');
+
 
 var app = express();
 
@@ -277,7 +278,9 @@ app.get('/addSpell/:spell_id',
          new Spell_List(
           {
             userid:res.locals.user._id,
-            spellId:req.params.index}
+            spellIndex:req.params.spell_id,
+            //username:res.locals.user.username
+          }
           )
       await spellItem.save();
       res.redirect('/dnd')
@@ -290,9 +293,11 @@ app.get('/showSpellList',
   isLoggedIn,
   async (req,res,next) => {
     try{
+      console.log('1')
       const spells = 
          await Spell_List.find({userId:res.locals.user.id})
-             .populate('spellId');
+             .populate('name');
+             console.log('2')
       //res.json(courses);
       res.locals.spells = spells;
       res.render('showSpellList')

@@ -11,7 +11,7 @@
                 spell_id = <%= r.index%> 
                 <td> <%= r.name %> </td> 
                 <td> <a href = "https://www.dnd5eapi.co<%= r.url %>">https://www.dnd5eapi.co<%= r.url %></a> </td>
-                <td> <a href = "/addSpell/:spell_id'>">Add to Spell List</a> </td>
+                <td> <a href = "/addSpell/:<%= r.index %>">Add to Spell List</a> </td>
             </td>
 
             </tr>

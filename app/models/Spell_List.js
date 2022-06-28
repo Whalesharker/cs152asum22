@@ -2,10 +2,10 @@
 const mongoose = require( 'mongoose' );
 const Schema = mongoose.Schema;
 
-var scheduleSchema = Schema( {
+var ListSchema = Schema( {
   userId: {type:Schema.Types.ObjectId, ref:'User'},
-  courseId: {type:Schema.Types.ObjectId,ref:'Spell'},
+  //username: {String, ref:'username'},
+  spellIndex: String,
 } );
 
-module.exports = mongoose.model( 'Spell_List', scheduleSchema );
-
+module.exports = mongoose.model( 'Spell_List', ListSchema );
