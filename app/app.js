@@ -8,8 +8,6 @@ const axios = require('axios');
 const auth = require('./routes/auth');
 const session = require("express-session"); 
 const MongoDBStore = require('connect-mongodb-session')(session);
-const ToDoItem = require('./models/ToDoItem');
-
 
 // *********************************************************** //
 //  Loading JSON datasets
@@ -49,6 +47,8 @@ const isLoggedIn = (req,res,next) => {
 /*
   Load MongoDB models 
 */
+const ToDoItem = require('./models/ToDoItem');
+const Contact = require('./models/Contact');
 const Schedule = require('./models/Schedule');
 const Course = require('./models/Course')
 const Spell_List = require('./models/Spell_List');
@@ -454,20 +454,6 @@ app.get('/showTodoList',
    }
   }
 )
-
-app.get('/deleteToDoItem/:itemId',
-    isLoggedIn,
-    async (req,res,next) => {
-      try {
-        const itemId = req.params.itemId;
-        await ToDoItem.deleteOne({_id:itemId});
-        res.redirect('/showTodoList');
-      } catch(e){
-        next(e);
-      }
-    }
-)
-
 app.get('/toggleToDoItem/:itemId',
     isLoggedIn,
     async (req,res,next) => {
@@ -483,6 +469,58 @@ app.get('/toggleToDoItem/:itemId',
     }
 )
 
+app.get('/deleteToDoItem/:itemId',
+    isLoggedIn,
+    async (req,res,next) => {
+      try {
+        const itemId = req.params.itemId;
+        await ToDoItem.deleteOne({_id:itemId});
+        res.redirect('/showTodoList');
+      } catch(e){
+        next(e);
+      }
+    }
+)
+
+app.get('/contacts',
+        isLoggedIn,
+  async (req,res,next) => {
+   try {
+    const contacts = await Contact.find({userId:res.locals.user._id});
+    res.locals.contacts = contacts
+    res.render('contacts')
+    //res.json(todoitems);
+   }catch(e){
+    next(e);
+   }
+  }
+)
+
+app.post('/contacts',
+  isLoggedIn,
+  async (req,res,next) => {
+    try {
+      const name = req.body.name;
+      const email = req.body.email;
+      const phone = req.body.phone;
+      const comments = req.body.comments;
+      const contactobj = {
+        userId:res.locals.user._id,
+        name:name,
+        email:email,
+        phone:phone,
+        comments:comments,
+      }
+      const contact = new Contact(contactobj); // create ORM object for item
+      await contact.save();  // stores it in the database
+      res.redirect('/contacts');
+
+
+    }catch(err){
+      next(err);
+    }
+  }
+)
 
 
 // catch 404 and forward to error handler
