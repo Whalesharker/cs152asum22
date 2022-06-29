@@ -1,7 +1,8 @@
 <ol>
     <% for(spell of spells) {%>
-        <li><%= spell.index %> 
+        <li><%= spell.spellIndex %> 
             <!--<a href="/deleteFromSchedule/<%= spell.index%>">delete</a>-->
         </li>
     <% } %>
 </ol>
+<%= JSON.stringify(spells) %>

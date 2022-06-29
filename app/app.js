@@ -301,7 +301,7 @@ app.get('/showSpellList',
       console.log('1')
       const spells = 
          await Spell_List.find({userId:res.locals.user.id})
-             .populate('name');
+             .populate('spell_id');
              console.log('2')
       //res.json(courses);
       res.locals.spells = spells;
